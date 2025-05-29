@@ -43,6 +43,16 @@ public class PreviousSqlAction extends JumpSqlAction {
     }
 
     @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        // 根据操作性质二选一：
+    
+        // 选项1：UI操作（推荐）
+        return ActionUpdateThread.EDT;  // 用于界面更新、按钮状态变更等
+    
+        // 选项2：后台操作
+        // return ActionUpdateThread.BGT;  // 用于计算密集型或耗时操作
+    }    
+    @Override
     protected boolean isValid(RangeHighlighterEx next, int startOffset, int endOffset) {
         return super.isValid(next, startOffset, endOffset) && editor.getDocument().getLineNumber(endOffset) != editor.getDocument().getLineNumber(next.getStartOffset());
     }
